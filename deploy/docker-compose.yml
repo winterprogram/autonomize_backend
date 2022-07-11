@@ -1,0 +1,43 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3'
+
+# Define services
+services:
+
+  # App Service
+  app:
+    # Configuration for building the docker image for the service
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090" # Forward the exposed port 9090 on the container to port 9090 on the host machine
+    restart: unless-stopped
+    depends_on: 
+      - postgres # This service depends on postgres. Start that first.
+    networks:
+      - fullstack
+      
+  postgres:
+        image: postgres
+        restart: always
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+          - POSTGRES_DB=test
+        ports:
+          - '5432:5432'
+        volumes: 
+         - postgres:/var/lib/postgresql/data
+          # - ./postgres-data:/var/lib/postgresql/data
+          # copy the sql script to create tables
+        networks:
+          - fullstack  
+
+volumes:
+  app:
+  postgres:  
+
+networks:
+  fullstack:
+    driver: bridge

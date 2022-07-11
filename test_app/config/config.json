@@ -1,0 +1,23 @@
+{
+    "name": "test",
+    "profiles": [
+        "dev"
+    ],
+    "label": "master",
+    "version": "0.0.1",
+    "state": null,
+    "propertySources": [
+        {
+            "source": {
+                "Environment": "dev",
+                "server.port": ":8080",
+                
+                "log.file.path": "/tmp/log/",
+                "log.file.name": "test.log",
+                "log.file.maxsize": 10,
+                "log.file.maxbackup": 5,
+                "log.file.maxage": 30
+            }
+        }
+    ]
+}
